@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Cart | Mobile Store{% endblock %}
+
+{% block body %}
+<div class="row">
+	{% if products|length > 0 %}
+	<div class="col-lg-8">
+		<h3 class="bold">
+			<i class="glyphicon glyphicon-shopping-cart"></i> Your Shopping Cart
+		</h3>
+
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				{% for product in products %}
+
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="thumbnail thumbnail-q">
+								<img src="{{ url_for('static', filename='uploads/' + product.image) }}" alt="">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<h3 class="bold">{{ product.name }}</h3>
+						<p>&dollar;{{ product.price }}</p>
+						<br />
+						<p>
+							<a href="{{ url_for('remove_from_cart', product_id=product.product_id) }}"
+								class="btn btn-danger btn-xs">
+								<i class="glyphicon glyphicon-trash"></i>
+							</a>
+						</p>
+					</div>
+					<div class="col-lg-2">
+						<h3>Quantity</h3>
+						<p>{{ product.quantity }}</p>
+					</div>
+					<div class="col-lg-2">
+						<h3>Total</h3>
+						<p>
+							<strong>&dollar;{{ product.total }}</strong>
+						</p>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-4">
+		<h3 class="bold">
+			<i class="glyphicon glyphicon-th-list"></i> Cart Summary
+		</h3>
+
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				Current Cart Value
+			</div>
+			<ul class="list-group">
+				<li class="list-group-item">
+					<p>
+						{{ products|length }} Items <strong class="pull-right">&dollar;{{ grand_total }}</strong>
+					</p>
+					<p>
+						Shipping Fee <strong class="pull-right">&dollar;20</strong>
+					</p>
+				</li>
+				<li class="list-group-item">
+					<p>Total <strong class="pull-right">&dollar;{{ grand_total + 20 }}</strong></p>
+				</li>
+			</ul>
+			<div class="panel-footer">
+				<a href="{{ url_for('checkout') }}" class="btn btn-primary btn-sm">
+					Checkout <i class="glyphicon glyphicon-chevron-right"></i>
+				</a>
+				<a href="./" class="btn btn-link btn-sm pull-right">
+					<i class="glyphicon glyphicon-chevron-left"></i> Continue Shopping
+				</a>
+			</div>
+		</div>
+	</div>
+	{% else %}
+	<div>
+		<center>
+			<h3 class="bold">There is no items in your cart.</h3>
+			<a href="{{ url_for('index') }}">Shop Now</a>
+		</center>
+	</div>
+
+	{% endif %}
+</div>
+{% endblock %}
